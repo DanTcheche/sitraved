@@ -30,8 +30,8 @@ This project uses [poetry](https://python-poetry.org/). as a dependency manager.
 
 
 ## Create new apps
-1) Create a folder in `my_project/apps/` with the app name.
-1) Run `python manage.py startapp {app_name} my_project/apps/{folder_name}`.
+1) Create a folder in `sitraved/apps/` with the app name.
+1) Run `python manage.py startapp {app_name} sitraved/apps/{folder_name}`.
 1) Add the app to you LOCAL_APPS in the `base.py`.
 1) Add the apps urls in `settings/urls.py`.
 
