@@ -8,4 +8,4 @@ class BaseModel(models.Model):
 
 
 class User(AbstractUser, BaseModel):
-    pass
+    email = models.EmailField(unique=True)
