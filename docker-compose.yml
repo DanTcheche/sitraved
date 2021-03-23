@@ -1,0 +1,24 @@
+
+version: "3.7"
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: development
+      POSTGRES_USER: development
+      POSTGRES_DB: development
+    ports:
+    - "5432:5432"
+  web:
+    build:
+      context: .
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      DJANGO_SETTINGS_MODULE: conf.settings.local
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+    - ./:/app/code/
