@@ -12,6 +12,7 @@ psycopg2-binary = "^2.8.6"
 djangorestframework = "^3.12.2"
 pytest-django = "^4.1.0"
 djangorestframework-simplejwt = "^4.6.0"
+factory-boy = "^3.2.0"
 [tool.poetry.dev-dependencies]
 
 [build-system]
