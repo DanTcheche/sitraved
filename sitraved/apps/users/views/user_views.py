@@ -41,7 +41,6 @@ class UserViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=['POST'])
     def logout(self, request):
         if request.user.is_authenticated:
-            logout(request)
             response = Response(status=status.HTTP_200_OK)
             response.delete_cookie("refresh")
             return response

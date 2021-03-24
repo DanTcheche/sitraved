@@ -34,7 +34,7 @@ class TestUserSignUpView:
             'username': 'TestUser',
             'email': 'test@user.com',
             'password': 'correctpassword',
-            'password_confirmation': 'wrongpassword',
+            'password_confirmation': 'incorrectpassword',
         }
         response = self.client.post('/api/users/register/', params)
         assert response.status_code == 400, str(response.content)
