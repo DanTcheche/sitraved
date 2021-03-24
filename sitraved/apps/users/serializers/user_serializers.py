@@ -6,7 +6,7 @@ from sitraved.apps.users.models.user import User
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('id', 'username', 'email')
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -45,6 +45,10 @@ class UserRegisterSerializer(serializers.Serializer):
         return data
 
     def create(self, data):
-        data.pop('password_confirmation')
-        user = User.objects.create_user(**data)
+        creation_data = {
+            'username': data['username'],
+            'email': data['email'],
+            'password': data['password'],
+        }
+        user = User.objects.create_user(**creation_data)
         return user
