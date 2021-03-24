@@ -2,7 +2,7 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth import logout, login
-
+from django.db.utils import IntegrityError
 from sitraved.apps.users.models.user import User
 from sitraved.apps.users.serializers.user_serializers import UserLoginSerializer, UserModelSerializer, \
     UserRegisterSerializer
@@ -25,7 +25,17 @@ class UserViewSet(viewsets.GenericViewSet):
     def register(self, request):
         serializer = UserRegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user_model = serializer.save()
+        try:
+            user_model = serializer.save()
+        except IntegrityError as exception:
+            if 'username' in str(exception):
+                message = 'An user with that username already exists.'
+            elif 'email' in str(exception):
+                message = 'An user with that email already exists.'
+            else:
+                message = 'Unexpected error'
+            return Response({'success': False, 'message': message},
+                            status=status.HTTP_400_BAD_REQUEST)
         return generate_response_with_tokens(user_model)
 
     @action(detail=False, methods=['POST'])

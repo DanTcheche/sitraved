@@ -3,7 +3,7 @@ import factory
 from sitraved.apps.users.models import User
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(factory.Factory):
     class Meta:
         model = User
     email = factory.Sequence(lambda n: f'user{n}@test.com')
