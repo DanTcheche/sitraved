@@ -25,8 +25,7 @@ class UserViewSet(viewsets.GenericViewSet):
     def register(self, request):
         serializer = UserRegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        user_model = UserModelSerializer(user).data
+        user_model = serializer.save()
         return generate_response_with_tokens(user_model)
 
     @action(detail=False, methods=['POST'])

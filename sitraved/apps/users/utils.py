@@ -26,7 +26,7 @@ def generate_response_with_tokens(user):
 
     response = Response(response_dict)
 
-    response.set_cookie("refresh", value=jwt_tokens["refresh"],
+    response.set_cookie("refresh", value=jwt_tokens["refresh_token"],
                         expires=datetime.datetime.now() + datetime.timedelta(days=20),
                         httponly=True)
     return response
