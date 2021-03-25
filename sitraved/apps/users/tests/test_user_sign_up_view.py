@@ -1,6 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
+from sitraved.apps.users.models import User
 from sitraved.apps.users.tests.factories.user_factory import UserFactory
 
 
@@ -21,6 +22,7 @@ class TestUserSignUpView:
         response = self.client.post('/api/users/register/', params)
 
         assert response.status_code == 200, str(response.content)
+        assert User.objects.all().count() == 1
         response = response.json()
         assert response['success']
         user = response['user']
@@ -37,6 +39,7 @@ class TestUserSignUpView:
             'password_confirmation': 'incorrectpassword',
         }
         response = self.client.post('/api/users/register/', params)
+        assert User.objects.all().count() == 0
         assert response.status_code == 400, str(response.content)
         assert response.json()['non_field_errors'] == ['Passwords do not match']
 
