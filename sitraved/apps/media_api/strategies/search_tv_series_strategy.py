@@ -16,7 +16,6 @@ class SearchTVSeries(Strategy):
     def __build_search_response(self, series_list):
         data = {'series': []}
         for series in series_list:
-            print(series.get('first_air_date', ""))
             data['series'].append({
                 'id': series['id'],
                 'title': series['name'],
@@ -26,5 +25,4 @@ class SearchTVSeries(Strategy):
                 'backdrop_url': self.generate_image_url(series["backdrop_path"]),
                 'tmdb_present': True
             })
-        print(data)
         return data
