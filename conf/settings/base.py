@@ -50,7 +50,8 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    'sitraved.apps.users'
+    'sitraved.apps.users',
+    'sitraved.apps.media_api'
 ]
 
 VENDOR_APPS = [
@@ -139,9 +140,14 @@ REST_FRAMEWORK = {
 STATIC_URL = '/static/'
 
 
-#JWT
+# JWT
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
+
+# TMDB
+TMDB_API_KEY = env('TMDB_API_KEY', default='')
+TMDB_API_BASE_URL = 'https://api.themoviedb.org/3/'
+TMDB_IMAGE_BASE_URL = env('TMDB_IMAGE_BASE_URL', default='')
