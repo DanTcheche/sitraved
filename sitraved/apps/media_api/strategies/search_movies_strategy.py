@@ -26,8 +26,3 @@ class SearchMovies(Strategy):
                 'tmdb_present': True
             })
         return data
-
-    def generate_image_url(self, path):
-        if path is None:
-            return None
-        return f"{self.image_base_url}{path}"

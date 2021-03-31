@@ -17,3 +17,8 @@ class Strategy(ABC):
     def validate_response(self, response):
         if 'status_code' in response.json():
             raise MovieClientException(response.json()['status_message'])
+
+    def generate_image_url(self, path):
+        if path is None:
+            return None
+        return f"{self.image_base_url}{path}"
