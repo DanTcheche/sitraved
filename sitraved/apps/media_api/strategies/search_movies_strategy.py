@@ -7,7 +7,7 @@ class SearchMovies(Strategy):
     def search(self, data):
         url = f"{self.base_url}search/movie?api_key={self.api_key}&query={data.get('title')}"
         response = requests.get(url)
-        self.__validate_response(response)
+        self.validate_response(response)
         response = response.json()
         movies = response['results']
         data = self.__build_search_response(movies)

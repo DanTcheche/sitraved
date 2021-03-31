@@ -14,6 +14,6 @@ class Strategy(ABC):
     def search(self, data):
         pass
 
-    def __validate_response(self, response):
+    def validate_response(self, response):
         if 'status_code' in response.json():
             raise MovieClientException(response.json()['status_message'])
