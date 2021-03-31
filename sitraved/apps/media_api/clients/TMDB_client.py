@@ -9,8 +9,8 @@ class TMDBClient:
         self.image_base_url = settings.TMDB_IMAGE_BASE_URL
         self.strategy = strategy
 
-    def search(self):
-        self.strategy.search()
+    def search(self, data):
+        return self.strategy.search(data)
 
 
 class MovieClientException(Exception):
