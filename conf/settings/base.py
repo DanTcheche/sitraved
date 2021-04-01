@@ -55,6 +55,7 @@ LOCAL_APPS = [
 
 VENDOR_APPS = [
     'rest_framework',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = VENDOR_APPS + LOCAL_APPS + DJANGO_APPS
@@ -62,11 +63,13 @@ INSTALLED_APPS = VENDOR_APPS + LOCAL_APPS + DJANGO_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'sitraved.apps.users.utils.RefreshTokenFromHeaderToBody'
 ]
 
 ROOT_URLCONF = 'conf.urls'
@@ -139,9 +142,15 @@ REST_FRAMEWORK = {
 STATIC_URL = '/static/'
 
 
-#JWT
+# JWT
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
+
+# CORS
+CORS_WHITELIST = env('CORS_ORIGIN_WHITELIST', default="")
+CORS_ORIGIN_WHITELIST = CORS_WHITELIST.split(",") if CORS_WHITELIST else []
+SESSION_COOKIE_SAMESITE = None
+CORS_ALLOW_CREDENTIALS = True

@@ -14,6 +14,12 @@ class UserViewSet(viewsets.GenericViewSet):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserModelSerializer
 
+    @action(detail=False, methods=['GET'])
+    def current(self, request):
+        if request.user.is_authenticated:
+            return Response(request.user)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     @action(detail=False, methods=['POST'])
     def login(self, request):
         serializer = UserLoginSerializer(data=request.data)
