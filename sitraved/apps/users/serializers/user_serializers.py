@@ -14,9 +14,9 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(min_length=8, write_only=True)
 
     def validate(self, data):
-        user = authenticate(username=data['username'], password=data['password'])
+        user = authenticate(username=data['username'].lower(), password=data['password'])
         if not user:
-            raise serializers.ValidationError('Invalid user')
+            raise serializers.ValidationError('Invalid user or password')
 
         self.context['user'] = user
         return data
@@ -46,8 +46,8 @@ class UserRegisterSerializer(serializers.Serializer):
 
     def create(self, data):
         creation_data = {
-            'username': data['username'],
-            'email': data['email'],
+            'username': data['username'].lower(),
+            'email': data['email'].lower(),
             'password': data['password'],
         }
         user = User.objects.create_user(**creation_data)

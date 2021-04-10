@@ -23,11 +23,14 @@ class TestUserSignUpView:
 
         assert response.status_code == 200, str(response.content)
         assert User.objects.all().count() == 1
+        created_user = User.objects.first()
         response = response.json()
         assert response['success']
         user = response['user']
         assert user['username'] == 'TestUser'
+        assert created_user.username == 'TestUser'
         assert user['email'] == 'test@user.com'
+        assert created_user.email == 'TestUser'
         assert 'refresh_token' in response
         assert 'access_token' in response
 

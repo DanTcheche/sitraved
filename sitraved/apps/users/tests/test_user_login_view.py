@@ -48,4 +48,4 @@ class TestUserLoginView:
         response = self.client.post('/api/users/login/', login_params)
 
         assert response.status_code == 400, str(response.content)
-        assert response.json()['non_field_errors'] == ['Invalid user']
+        assert response.json()['non_field_errors'] == ['Invalid user or password']

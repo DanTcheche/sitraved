@@ -1,7 +1,6 @@
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth import logout, login
 from django.db.utils import IntegrityError
 from sitraved.apps.users.models.user import User
 from sitraved.apps.users.serializers.user_serializers import UserLoginSerializer, UserModelSerializer, \
@@ -13,6 +12,12 @@ class UserViewSet(viewsets.GenericViewSet):
 
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserModelSerializer
+
+    @action(detail=False, methods=['GET'])
+    def current(self, request):
+        if request.user.is_authenticated:
+            return generate_response_with_tokens(request.user)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=False, methods=['POST'])
     def login(self, request):
