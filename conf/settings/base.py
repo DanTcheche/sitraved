@@ -50,7 +50,8 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    'sitraved.apps.users'
+    'sitraved.apps.users',
+    'sitraved.apps.media_api'
 ]
 
 VENDOR_APPS = [
@@ -154,3 +155,9 @@ CORS_WHITELIST = env('CORS_ORIGIN_WHITELIST', default="")
 CORS_ORIGIN_WHITELIST = CORS_WHITELIST.split(",") if CORS_WHITELIST else []
 SESSION_COOKIE_SAMESITE = None
 CORS_ALLOW_CREDENTIALS = True
+
+
+# TMDB
+TMDB_API_KEY = env('TMDB_API_KEY', default='')
+TMDB_API_BASE_URL = 'https://api.themoviedb.org/3/'
+TMDB_IMAGE_BASE_URL = env('TMDB_IMAGE_BASE_URL', default='')
