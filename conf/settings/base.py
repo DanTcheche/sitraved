@@ -51,7 +51,8 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
     'sitraved.apps.users',
-    'sitraved.apps.media_api'
+    'sitraved.apps.media_api',
+    'sitraved.apps.recommendations'
 ]
 
 VENDOR_APPS = [
