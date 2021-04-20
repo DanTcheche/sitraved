@@ -12,7 +12,7 @@ class TestUserLoginView:
         self.client = APIClient()
 
     def test_user_correct_logout(self, set_up):
-        UserFactory(username='TestUser', email='test@user.com', password='correctpassword')
+        UserFactory(username='testuser', email='test@user.com', password='correctpassword')
 
         login_params = {
             'username': 'TestUser',

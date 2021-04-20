@@ -27,10 +27,10 @@ class TestUserSignUpView:
         response = response.json()
         assert response['success']
         user = response['user']
-        assert user['username'] == 'TestUser'
-        assert created_user.username == 'TestUser'
+        assert user['username'] == 'testuser'
+        assert created_user.username == 'testuser'
         assert user['email'] == 'test@user.com'
-        assert created_user.email == 'TestUser'
+        assert created_user.email == 'test@user.com'
         assert 'refresh_token' in response
         assert 'access_token' in response
 
@@ -77,7 +77,7 @@ class TestUserSignUpView:
         assert response.json()['password'] == ['This field is required.']
 
     def test_user_sign_up_existing_username(self, set_up):
-        UserFactory(username='TestUser')
+        UserFactory(username='testuser')
         params = {
             'username': 'TestUser',
             'email': 'test@user.com',
