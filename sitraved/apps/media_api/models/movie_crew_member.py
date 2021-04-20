@@ -9,3 +9,6 @@ class MovieCrewMember(BaseModel):
                                     on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, related_name='crew', blank=True, null=True,
                               on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('crew_member', 'movie',)
