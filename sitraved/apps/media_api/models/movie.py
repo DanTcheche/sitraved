@@ -15,7 +15,6 @@ class Movie(BaseModel):
     duration = models.IntegerField(blank=True, null=True)
 
     genres = models.ManyToManyField(MovieGenre)
-    cast = models.ManyToManyField(CrewMember)
 
     director = models.ForeignKey(CrewMember, related_name='movies_directed', blank=True, null=True,
                                  on_delete=models.SET_NULL)
