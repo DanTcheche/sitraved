@@ -32,8 +32,6 @@ class TestSearchMoviesAPI:
 
         response = self.client.get('/api/media/search/', search_params)
 
-        print(response.json())
-
         assert response.status_code == 200, str(response.content)
         response = response.json()
         assert len(response['movies']) == 15
