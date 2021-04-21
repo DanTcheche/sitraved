@@ -46,3 +46,29 @@ class TestMediaToModelCreator:
         assert CrewMember.objects.filter(name='Cosmo Jarvis').first()
 
         assert MovieCrewMember.objects.filter(movie=movie).count() == 7
+
+    @responses.activate
+    def test_media_create_same_movie_doesnt_fail(self):
+        movie_tmdb_id = 664596
+        tmdb_id_data = json.load(open(TMDB_ID_SEARCH_DATA))
+        credits_data = json.load(open(CREDITS_SEARCH_DATA))
+        responses.add(
+            responses.GET, f'https://api.themoviedb.org/3/movie/{movie_tmdb_id}?api_key={settings.TMDB_API_KEY}',
+            json=tmdb_id_data, status=200)
+
+        responses.add(
+            responses.GET,
+            f'https://api.themoviedb.org/3/movie/{movie_tmdb_id}/credits?api_key={settings.TMDB_API_KEY}',
+            json=credits_data, status=200)
+
+        movie = MediaToModelCreator().create_movie(movie_tmdb_id)
+
+        movie2 = MediaToModelCreator().create_movie(movie_tmdb_id)
+
+        assert Movie.objects.all().count() == 1
+        assert movie.id == movie2.id
+        assert movie.title == movie2.title
+        assert MovieGenre.objects.all().count() == 1
+        assert Language.objects.all().count() == 1
+        assert CrewMember.objects.all().count() == 8
+        assert MovieCrewMember.objects.filter(movie=movie).count() == 7

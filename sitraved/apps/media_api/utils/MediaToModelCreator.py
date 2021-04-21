@@ -51,7 +51,7 @@ class MediaToModelCreator:
         movie_model.save()
 
         for cast_member in cast:
-            MovieCrewMember.objects.create(movie=movie_model, crew_member=cast_member)
+            MovieCrewMember.objects.get_or_create(movie=movie_model, crew_member=cast_member)
         return movie_model
 
     def __create_movie_model(self, tmdb_movie):
