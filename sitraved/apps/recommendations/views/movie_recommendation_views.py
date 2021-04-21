@@ -19,11 +19,16 @@ class MovieRecommendationsViewSet(viewsets.ModelViewSet):
         movie = Movie.objects.filter(tmdb_id=tmdb_id).first()
         if not movie:
             movie = MediaToModelCreator().create_movie(tmdb_id)
-        movie_recommendation = MovieRecommendation.objects.filter(user=request.user, movie=movie).first()
-        if movie_recommendation:
-            return Response({'success': False, 'message': 'You have already recommended this movie.'},
-                            status=status.HTTP_400_BAD_REQUEST)
+        movie_recommendation = MovieRecommendation.objects.filter(movie=movie)
+        if movie_recommendation.exists():
+            if movie_recommendation.filter(user=request.user).exists():
+                return Response({'success': False, 'message': 'You have already recommended this movie.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({'success': False, 'message': 'This movie was already recommended by someone else.'},
+                                status=status.HTTP_400_BAD_REQUEST)
 
         movie_recommendation = MovieRecommendation.objects.create(user=request.user, movie=movie,
                                                                   description=description)
-        return Response(movie_recommendation, status=status.HTTP_200_OK)
+        serializer = self.get_serializer(movie_recommendation)
+        return Response(serializer.data, status=status.HTTP_200_OK)
