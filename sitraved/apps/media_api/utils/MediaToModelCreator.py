@@ -31,12 +31,12 @@ class MediaToModelCreator:
                                                               defaults={'name': tmdb_genre['name']})
             genres.append(genre)
 
-        tmdb_director = movie['director']
+        tmdb_director = tmdb_movie['director']
         director, created = CrewMember.objects.get_or_create(tmdb_id=tmdb_director['id'],
                                                              defaults={'name': tmdb_director['name']})
 
         cast = []
-        tmdb_cast = movie['cast']
+        tmdb_cast = tmdb_movie['cast']
         for tmdb_cast_member in tmdb_cast:
             if tmdb_cast_member['known_for_department'] == 'Acting':
                 cast_member, created = CrewMember.objects.get_or_create(tmdb_id=tmdb_cast_member['id'],
@@ -48,11 +48,11 @@ class MediaToModelCreator:
         movie_model.language = language
         movie_model.director = director
         movie_model.genres.add(*genres)
-        movie.save()
+        movie_model.save()
 
         for cast_member in cast:
-            MovieCrewMember.objects.create(movie=movie_model,crew_member=cast_member)
-        return movie
+            MovieCrewMember.objects.create(movie=movie_model, crew_member=cast_member)
+        return movie_model
 
     def __create_movie_model(self, tmdb_movie):
         movie = tmdb_movie['movie']
