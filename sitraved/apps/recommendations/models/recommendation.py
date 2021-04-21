@@ -4,7 +4,7 @@ from sitraved.apps.users.models.user import BaseModel
 
 class Recommendation(BaseModel):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=500, null=True, blank=True)
 
     class Meta:
         abstract = True
