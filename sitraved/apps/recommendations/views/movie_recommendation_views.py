@@ -13,6 +13,12 @@ class MovieRecommendationsViewSet(viewsets.ModelViewSet):
     queryset = MovieRecommendation.objects.all()
     serializer_class = MovieRecommendationSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return []
+        else:
+            return [IsAuthenticated]
+
     def create(self, request):
         tmdb_id = request.data.get('tmdb_id')
         description = request.data.get('description')
