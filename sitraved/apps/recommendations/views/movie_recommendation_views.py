@@ -1,6 +1,8 @@
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 from sitraved.apps.media_api.models import Movie
 from sitraved.apps.media_api.utils.MediaToModelCreator import MediaToModelCreator
@@ -8,16 +10,21 @@ from sitraved.apps.recommendations.models import MovieRecommendation
 from sitraved.apps.recommendations.serializers.movie_recommendation_serializer import MovieRecommendationSerializer
 
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 24
+    page_size_query_param = 'page_size'
+
+
 class MovieRecommendationsViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = MovieRecommendation.objects.all()
+    queryset = MovieRecommendation.objects.all().order_by('-created_at')
     serializer_class = MovieRecommendationSerializer
+    pagination_class = StandardResultsSetPagination
 
     def get_permissions(self):
         if self.request.method == 'GET':
             return []
         else:
-            return [IsAuthenticated]
+            return [IsAuthenticated()]
 
     def create(self, request):
         tmdb_id = request.data.get('tmdb_id')
