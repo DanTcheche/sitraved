@@ -80,6 +80,6 @@ class TestTMDBClient:
         })
 
         assert response['movie']['title'] == 'Funny Face'
-        assert response['movie']['id'] == movie_tmdb_id
+        assert response['movie']['tmdb_id'] == movie_tmdb_id
         assert response['movie']['genres'][0]['name'] == 'Drama'
         assert response['movie']['language'][0]['name'] == 'English'

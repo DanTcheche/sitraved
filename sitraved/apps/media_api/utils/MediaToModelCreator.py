@@ -73,6 +73,7 @@ class MediaToModelCreator:
                                                          'duration': duration,
                                                          'year': year,
                                                          'slug': slug,
+                                                         'imdb_id': movie['imdb_id']
                                                         }
                                                      )
         return movie

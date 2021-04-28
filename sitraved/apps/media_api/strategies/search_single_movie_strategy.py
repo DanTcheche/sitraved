@@ -30,13 +30,13 @@ class SearchSingleMovie(Strategy):
         data = {
             'movie':
                 {
-                    'id': movie['id'],
+                    'tmdb_id': movie['id'],
                     'title': movie['original_title'],
                     'year': movie.get('release_date').split('-')[0] if movie.get('release_date') else None,
                     'plot': movie.get('overview'),
                     'poster_url': self.generate_image_url(movie.get("poster_path")),
                     'backdrop_url': self.generate_image_url(movie.get("backdrop_path")),
-                    'tmdb_id': movie.get('imdb_id'),
+                    'imdb_id': movie.get('imdb_id'),
                     'duration': movie.get('runtime'),
                     'language': movie.get('spoken_languages'),
                     'genres': movie.get('genres')
