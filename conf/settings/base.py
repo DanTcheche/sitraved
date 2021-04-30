@@ -156,6 +156,14 @@ CORS_WHITELIST = env('CORS_ORIGIN_WHITELIST', default="https://sitraved2-fe.hero
 CORS_ORIGIN_WHITELIST = CORS_WHITELIST.split(",") if CORS_WHITELIST else []
 SESSION_COOKIE_SAMESITE = None
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = (
+        'x-requested-with',
+        'content-type',
+        'accept',
+        'origin',
+        'authorization',
+        'x-csrftoken'
+)
 
 
 # TMDB
