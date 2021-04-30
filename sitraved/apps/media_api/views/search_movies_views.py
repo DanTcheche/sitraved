@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from sitraved.apps.media_api.clients.TMDB_client import TMDBClient
 from sitraved.apps.media_api.strategies.search_movies_strategy import SearchMovies
-from sitraved.apps.recommendations.models import MovieRecommendation
+from sitraved.apps.recommendations.models import MovieRecommendation, MovieRecommendationComment
 
 
 class SearchMoviesAPI(APIView):
@@ -29,7 +29,11 @@ class SearchMoviesAPI(APIView):
             already_recommended_by = None
             movie_recommendation = MovieRecommendation.objects.filter(movie__tmdb_id=movie['id'])
             if movie_recommendation.exists():
-                already_recommended_by = movie_recommendation.filter(user=self.request.user).exists()
+                movie_comment_recommendation = MovieRecommendationComment.objects.filter(
+                    movie_recommendation=movie_recommendation.first(), user=self.request.user
+                )
+                already_recommended_by = movie_recommendation.filter(user=self.request.user).exists() or \
+                    movie_comment_recommendation.exists()
             data['movies'].append({
                 'id': movie['id'],
                 'title': movie['title'],
