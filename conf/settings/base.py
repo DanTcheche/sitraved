@@ -63,8 +63,8 @@ INSTALLED_APPS = VENDOR_APPS + LOCAL_APPS + DJANGO_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -156,6 +156,17 @@ CORS_WHITELIST = env('CORS_ORIGIN_WHITELIST', default="https://sitraved2-fe.hero
 CORS_ORIGIN_WHITELIST = CORS_WHITELIST.split(",") if CORS_WHITELIST else []
 SESSION_COOKIE_SAMESITE = None
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 
 # TMDB
