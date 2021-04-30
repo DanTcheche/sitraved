@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-import os
 import environ
 from datetime import timedelta
 
@@ -33,7 +32,7 @@ except FileNotFoundError:
 SECRET_KEY = 'jfzs8+ry$p^_kr#yo*neqnr(@o3c8*n_1bu+cxh1c0n(5+)*f+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', default=False)
 
 ALLOWED_HOSTS = []
 
