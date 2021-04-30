@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('cant-touch-this/', admin.site.urls),
     path('api/users/', include('sitraved.apps.users.urls')),
     path('api/recommendations/', include('sitraved.apps.recommendations.urls')),
     # JWT
