@@ -5,7 +5,9 @@ import responses
 from rest_framework.test import APIClient
 from django.conf import settings
 
+from sitraved.apps.media_api.tests.factories.MovieFactory import MovieFactory
 from sitraved.apps.recommendations.models import MovieRecommendation
+from sitraved.apps.recommendations.tests.factories.MovieRecommendationFactory import MovieRecommendationFactory
 from sitraved.apps.users.tests.factories.user_factory import UserFactory
 
 
@@ -19,14 +21,15 @@ class TestMovieRecommendationViewSet:
     @pytest.fixture
     def set_up(self):
         self.client = APIClient()
-        self.movie_tmdb_id = 664596
+        self.tmdb_id = 664596
+        self.user = UserFactory(username='testuser', email='test@user.com', password='correctpassword')
 
     def test_create_movie_recommendation(self, set_up):
-        self.__login(set_up)
+        self.__login_user(set_up, self.user, 'correctpassword')
 
-        self.__set_up_data(self.movie_tmdb_id)
+        self.__set_up_data(self.tmdb_id)
         params = {
-            'tmdb_id': self.movie_tmdb_id
+            'tmdb_id': self.tmdb_id
         }
         response = self.client.post('/api/recommendations/movies/', params)
 
@@ -36,13 +39,16 @@ class TestMovieRecommendationViewSet:
         assert MovieRecommendation.objects.all().count() == 1
 
     def test_cannot_create_same_recommendation_twice(self, set_up):
-        self.__login(set_up)
+        movie = MovieFactory(tmdb_id=664596, title='Funny Face')
+        self.__login_user(set_up, self.user, 'correctpassword')
 
-        self.__set_up_data(self.movie_tmdb_id)
+        self.__set_up_data(movie.tmdb_id)
+
+        MovieRecommendationFactory(movie=movie, user=self.user)
+
         params = {
-            'tmdb_id': self.movie_tmdb_id
+            'tmdb_id': movie.tmdb_id
         }
-        self.client.post('/api/recommendations/movies/', params)
 
         response = self.client.post('/api/recommendations/movies/', params)
 
@@ -52,24 +58,50 @@ class TestMovieRecommendationViewSet:
         assert response['message'] == 'You have already recommended this movie.'
 
     def test__cannot_create_movie_recommendation_not_logged_in(self, set_up):
-        self.__set_up_data(self.movie_tmdb_id)
+        self.__set_up_data(self.tmdb_id)
         params = {
-            'tmdb_id': self.movie_tmdb_id
+            'tmdb_id': self.tmdb_id
         }
         response = self.client.post('/api/recommendations/movies/', params)
 
         assert response.status_code == 401, str(response.content)
 
-    def __login(self, set_up):
-        UserFactory(username='testuser', email='test@user.com', password='correctpassword')
+    def test_cannot_delete_someone_else_recommendation(self, set_up):
+        movie = MovieFactory(tmdb_id=664596, title='Funny Face')
+        anotherUser = UserFactory(username='another_user', email='another_user@user.com', password='correctpassword')
+        self.__login_user(set_up, self.user, 'correctpassword')
 
+        movie_recommendation = MovieRecommendationFactory(movie=movie, user=anotherUser)
+
+        response = self.client.delete(f'/api/recommendations/movies/{movie_recommendation.id}/')
+
+        assert response.status_code == 403, str(response.content)
+        response = response.json()
+        assert response['detail'] == 'You do not have permission to perform this action.'
+
+    def test_cannot_edit_someone_else_recommendation(self, set_up):
+        movie = MovieFactory(tmdb_id=664596, title='Funny Face')
+        anotherUser = UserFactory(username='another_user', email='another_user@user.com', password='correctpassword')
+        self.__login_user(set_up, self.user, 'correctpassword')
+
+        movie_recommendation = MovieRecommendationFactory(movie=movie, user=anotherUser)
+        params = {
+            'description': 'New description'
+        }
+
+        response = self.client.put(f'/api/recommendations/movies/{movie_recommendation.id}/', params)
+
+        assert response.status_code == 403, str(response.content)
+        response = response.json()
+        assert response['detail'] == 'You do not have permission to perform this action.'
+
+    def __login_user(self, set_up, user, password):
         login_params = {
-            'username': 'TestUser',
-            'password': 'correctpassword',
+            'username': user.username,
+            'password': password,
         }
 
         response = self.client.post('/api/users/login/', login_params)
-
         access_token = response.json()["access_token"]
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
 

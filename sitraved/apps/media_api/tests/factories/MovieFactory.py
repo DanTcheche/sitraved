@@ -3,7 +3,7 @@ import factory
 from sitraved.apps.media_api.models import Movie
 
 
-class MovieFactory(factory.DjangoModelFactory):
+class MovieFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Movie
 
