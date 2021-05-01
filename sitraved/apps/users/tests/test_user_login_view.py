@@ -12,7 +12,7 @@ class TestUserLoginView:
         self.client = APIClient()
 
     def test_user_correct_login(self, set_up):
-        UserFactory(username='TestUser', email='test@user.com', password='correctpassword')
+        UserFactory(username='testuser', email='test@user.com', password='correctpassword')
 
         login_params = {
             'username': 'TestUser',
@@ -24,7 +24,7 @@ class TestUserLoginView:
         response = response.json()
         assert response['success']
         user = response['user']
-        assert user['username'] == 'TestUser'
+        assert user['username'] == 'testuser'
         assert user['email'] == 'test@user.com'
         assert 'refresh_token' in response
         assert 'access_token' in response
@@ -38,7 +38,7 @@ class TestUserLoginView:
         response = self.client.post('/api/users/login/', login_params)
 
         assert response.status_code == 400, str(response.content)
-        assert response.json()['non_field_errors'] == ['Invalid user']
+        assert response.json()['non_field_errors'] == ['Invalid user or password']
 
     def test_user_incorrect_user_login(self, set_up):
         login_params = {
