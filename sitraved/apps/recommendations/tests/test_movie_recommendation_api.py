@@ -66,7 +66,7 @@ class TestMovieRecommendationsViewSet:
 
         assert response.status_code == 401, str(response.content)
 
-    def test_cannot_delete_someone_else_recommendation(self, set_up):
+    def test_cannot_delete_recommendation(self, set_up):
         movie = MovieFactory(tmdb_id=664596, title='Funny Face')
         anotherUser = UserFactory(username='another_user', email='another_user@user.com', password='correctpassword')
         self.__login_user(set_up, self.user, 'correctpassword')
@@ -75,11 +75,10 @@ class TestMovieRecommendationsViewSet:
 
         response = self.client.delete(f'/api/recommendations/movies/{movie_recommendation.id}/')
 
-        assert response.status_code == 403, str(response.content)
+        assert response.status_code == 405, str(response.content)
         response = response.json()
-        assert response['detail'] == 'You do not have permission to perform this action.'
 
-    def test_cannot_edit_someone_else_recommendation(self, set_up):
+    def test_cannot_edit_recommendation(self, set_up):
         movie = MovieFactory(tmdb_id=664596, title='Funny Face')
         anotherUser = UserFactory(username='another_user', email='another_user@user.com', password='correctpassword')
         self.__login_user(set_up, self.user, 'correctpassword')
@@ -91,9 +90,7 @@ class TestMovieRecommendationsViewSet:
 
         response = self.client.put(f'/api/recommendations/movies/{movie_recommendation.id}/', params)
 
-        assert response.status_code == 403, str(response.content)
-        response = response.json()
-        assert response['detail'] == 'You do not have permission to perform this action.'
+        assert response.status_code == 405, str(response.content)
 
     def __login_user(self, set_up, user, password):
         login_params = {
