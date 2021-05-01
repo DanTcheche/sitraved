@@ -1,12 +1,13 @@
 from rest_framework import status, viewsets
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 
 from sitraved.apps.media_api.models import Movie
 from sitraved.apps.media_api.utils.MediaToModelCreator import MediaToModelCreator
-from sitraved.apps.recommendations.models import MovieRecommendation
-from sitraved.apps.recommendations.permissions.UserItemPermissions import IsOwnerOrReadOnly
+from sitraved.apps.recommendations.models import MovieRecommendation, MovieRecommendationComment
+from sitraved.apps.recommendations.permissions.user_item_permissions import IsOwnerOrReadOnly
 from sitraved.apps.recommendations.serializers.movie_recommendation_serializer import MovieRecommendationSerializer
 
 
@@ -19,6 +20,7 @@ class MovieRecommendationsViewSet(viewsets.ModelViewSet):
     queryset = MovieRecommendation.objects.all().order_by('-created_at')
     serializer_class = MovieRecommendationSerializer
     pagination_class = StandardResultsSetPagination
+    http_method_names = ['get', 'post']
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -45,3 +47,16 @@ class MovieRecommendationsViewSet(viewsets.ModelViewSet):
                                                                   description=description)
         serializer = self.get_serializer(movie_recommendation)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GetUserRecommendationsMoviesIds(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        movie_ids = set()
+
+        movie_recommendations = MovieRecommendation.objects.filter(user=request.user)
+        movie_recommendation_comments = MovieRecommendationComment.objects.filter(user=request.user)
+        movie_ids.update(movie_recommendations.values_list('movie_id', flat=True))
+        movie_ids.update(movie_recommendation_comments.values_list('movie_recommendation__movie_id', flat=True))
+        return Response(list(movie_ids))
