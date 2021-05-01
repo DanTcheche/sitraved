@@ -6,7 +6,7 @@ from sitraved.apps.users.models.user import User
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('username', 'email')
 
 
 class UserLoginSerializer(serializers.Serializer):

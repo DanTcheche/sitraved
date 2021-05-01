@@ -5,6 +5,7 @@ from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
     path('cant-touch-this/', admin.site.urls),
     path('api/users/', include('sitraved.apps.users.urls')),
+    path('api/media/', include('sitraved.apps.media_api.urls')),
     path('api/recommendations/', include('sitraved.apps.recommendations.urls')),
     # JWT
     path('api/jwt/create/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),

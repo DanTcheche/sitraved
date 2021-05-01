@@ -19,10 +19,12 @@ class SearchMovies(Strategy):
             data['movies'].append({
                 'id': movie['id'],
                 'title': movie['title'],
-                'year': movie['release_date'].split('-')[0],
-                'plot': movie['overview'],
-                'poster_url': self.generate_image_url(movie["poster_path"]),
-                'backdrop_url': self.generate_image_url(movie["backdrop_path"]),
+                'year': movie.get('release_date').split('-')[0] if movie.get('release_date') else None,
+                'plot': movie.get('overview'),
+                'poster_url': self.generate_image_url(movie.get("poster_path")),
+                'backdrop_url': self.generate_image_url(movie.get("backdrop_path")),
                 'tmdb_present': True
             })
+            if len(data['movies']) == 15:
+                break
         return data
