@@ -7,7 +7,7 @@ from django.conf import settings
 
 from sitraved.apps.media_api.tests.factories.MovieFactory import MovieFactory
 from sitraved.apps.recommendations.models import MovieRecommendation
-from sitraved.apps.recommendations.tests.factories.MovieRecommendationFactory import MovieRecommendationFactory
+from sitraved.apps.recommendations.tests.factories.movie_recommendation_factory import MovieRecommendationFactory
 from sitraved.apps.users.tests.factories.user_factory import UserFactory
 
 
@@ -16,7 +16,7 @@ CREDITS_SEARCH_DATA = os.path.join(os.path.dirname(__file__), 'mock_data/movie_s
 
 
 @pytest.mark.django_db
-class TestMovieRecommendationViewSet:
+class TestMovieRecommendationsViewSet:
 
     @pytest.fixture
     def set_up(self):
