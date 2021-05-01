@@ -1,5 +1,6 @@
 from .base import *
 import logging
+import os
 
 os.environ['DATABASE_URL'] = os.environ['DATABASE_TEST_URL']
 
