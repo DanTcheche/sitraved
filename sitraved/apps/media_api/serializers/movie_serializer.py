@@ -13,5 +13,5 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'plot', 'language', 'poster_url', 'backdrop_url', 'duration', 'genres', 'director',
-                  'year', 'slug')
+        fields = ('id', 'tmdb_id', 'title', 'plot', 'language', 'poster_url', 'backdrop_url', 'duration', 'genres',
+                  'director', 'year', 'slug')

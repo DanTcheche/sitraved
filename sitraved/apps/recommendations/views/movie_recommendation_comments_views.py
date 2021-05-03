@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from sitraved.apps.media_api.models import Movie
 from sitraved.apps.recommendations.models import MovieRecommendation, MovieRecommendationComment
-from sitraved.apps.recommendations.permissions.UserItemPermissions import IsOwnerOrReadOnly
+from sitraved.apps.recommendations.permissions.user_item_permissions import IsOwnerOrReadOnly
 from sitraved.apps.recommendations.serializers.movie_recommendation_comment_serializer import \
     MovieRecommendationCommentSerializer
 from sitraved.apps.recommendations.views.movie_recommendation_views import StandardResultsSetPagination

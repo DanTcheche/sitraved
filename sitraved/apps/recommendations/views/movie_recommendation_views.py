@@ -5,8 +5,8 @@ from rest_framework.pagination import PageNumberPagination
 
 from sitraved.apps.media_api.models import Movie
 from sitraved.apps.media_api.utils.MediaToModelCreator import MediaToModelCreator
-from sitraved.apps.recommendations.models import MovieRecommendation
-from sitraved.apps.recommendations.permissions.UserItemPermissions import IsOwnerOrReadOnly
+from sitraved.apps.recommendations.models import MovieRecommendation, MovieRecommendationComment
+from sitraved.apps.recommendations.permissions.user_item_permissions import IsOwnerOrReadOnly
 from sitraved.apps.recommendations.serializers.movie_recommendation_serializer import MovieRecommendationSerializer
 
 
@@ -19,6 +19,7 @@ class MovieRecommendationsViewSet(viewsets.ModelViewSet):
     queryset = MovieRecommendation.objects.all().order_by('-created_at')
     serializer_class = MovieRecommendationSerializer
     pagination_class = StandardResultsSetPagination
+    http_method_names = ['get', 'post']
 
     def get_permissions(self):
         if self.request.method == 'POST':
