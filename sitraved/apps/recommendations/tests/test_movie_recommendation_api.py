@@ -76,7 +76,6 @@ class TestMovieRecommendationsViewSet:
         response = self.client.delete(f'/api/recommendations/movies/{movie_recommendation.id}/')
 
         assert response.status_code == 405, str(response.content)
-        response = response.json()
 
     def test_cannot_edit_recommendation(self, set_up):
         movie = MovieFactory(tmdb_id=664596, title='Funny Face')

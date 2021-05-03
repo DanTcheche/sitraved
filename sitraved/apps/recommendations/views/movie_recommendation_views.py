@@ -1,5 +1,4 @@
 from rest_framework import status, viewsets
-from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -47,16 +46,3 @@ class MovieRecommendationsViewSet(viewsets.ModelViewSet):
                                                                   description=description)
         serializer = self.get_serializer(movie_recommendation)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class GetUserRecommendationsMoviesIds(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        movie_ids = set()
-
-        movie_recommendations = MovieRecommendation.objects.filter(user=request.user)
-        movie_recommendation_comments = MovieRecommendationComment.objects.filter(user=request.user)
-        movie_ids.update(movie_recommendations.values_list('movie_id', flat=True))
-        movie_ids.update(movie_recommendation_comments.values_list('movie_recommendation__movie_id', flat=True))
-        return Response(list(movie_ids))
