@@ -9,10 +9,11 @@ class MovieRecommendationSerializer(serializers.ModelSerializer):
     movie = MovieSerializer()
     user = UserModelSerializer()
     comment = serializers.SerializerMethodField()
+    recommendations_count = serializers.SerializerMethodField()
 
     class Meta:
         model = MovieRecommendation
-        fields = ('id', 'movie', 'user', 'description', 'comment')
+        fields = ('id', 'movie', 'user', 'description', 'comment', 'recommendations_count')
 
     def get_comment(self, movie_recommendation):
         request = self.context.get('request', None)
@@ -25,3 +26,6 @@ class MovieRecommendationSerializer(serializers.ModelSerializer):
             if comment:
                 return comment.id
         return None
+
+    def get_recommendations_count(self, movie_recommendation):
+        return MovieRecommendationComment.objects.filter(movie_recommendation=movie_recommendation).count() + 1

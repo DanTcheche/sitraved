@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from sitraved.apps.recommendations.models import MovieRecommendation, MovieRecommendationComment
+
+
+@admin.register(MovieRecommendation)
+class MovieRecommendationAdmin(admin.ModelAdmin):
+    list_filter = ('created_at', 'user__username', 'movie__title')
+
+
+@admin.register(MovieRecommendationComment)
+class MovieRecommendationAdmin(admin.ModelAdmin):
+    list_filter = ('created_at', 'user__username', 'movie_recommendation__movie__title')
