@@ -38,7 +38,7 @@ class MediaToModelCreator:
         cast = []
         tmdb_cast = tmdb_movie['cast']
         for tmdb_cast_member in tmdb_cast:
-            if tmdb_cast_member['known_for_department'] == 'Acting':
+            if tmdb_cast_member['known_for_department'] == 'Acting' and tmdb_cast_member['popularity'] > 3:
                 cast_member, created = CrewMember.objects.get_or_create(tmdb_id=tmdb_cast_member['id'],
                                                                         defaults={
                                                                             'name': tmdb_cast_member['original_name']
