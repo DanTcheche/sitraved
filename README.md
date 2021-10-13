@@ -36,4 +36,8 @@ This project uses [poetry](https://python-poetry.org/). as a dependency manager.
 1) Add the apps urls in `settings/urls.py`.
 
 
+## Heroku deployment
+1) `git push heroku master`
+2) Run scripts: `heroku run python manage.py shell < scripts/myscript.py`
+3) Kill dyno: `heroku ps` `heroku ps:stop run.4859`
 
