@@ -65,3 +65,5 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
     - name: Run tests
       run: poetry run pytest
+    - name: Analysing the code with flake8
+      run: poetry run flake8
