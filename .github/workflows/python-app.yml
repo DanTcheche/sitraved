@@ -1,0 +1,67 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+env:
+  # Env variables
+  TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+  TMDB_IMAGE_BASE_URL: ${{ secrets.TMDB_IMAGE_BASE_URL }}
+  # Django variables
+  DJANGO_SETTINGS_MODULE: conf.settings.testing
+  DATABASE_TEST_URL: postgres://development:development@localhost/test_db
+  # Build variables
+  PIP_CACHE_DIR: /prebuild/pip-cache
+  PYTHON_VENV_DIR: /prebuild/venv
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_VARIABLE }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_VARIABLE }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_VARIABLE }}
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: psycopg2 prerequisites
+      run: sudo apt-get install libpq-dev
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+
+    - name: Cache Poetry virtualenv
+      uses: actions/cache@v1
+      id: cache
+      with:
+          path: ~/.virtualenvs
+          key: poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            poetry-${{ hashFiles('**/poetry.lock') }}
+    - name: Set Poetry config
+      run: |
+        poetry config virtualenvs.in-project false
+        poetry config virtualenvs.path ~/.virtualenvs
+    - name: Install Dependencies
+      run: poetry install
+      if: steps.cache.outputs.cache-hit != 'true'
+    - name: Run tests
+      run: poetry run pytest
