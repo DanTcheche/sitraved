@@ -150,6 +150,20 @@ python-dateutil = ">=2.4"
 text-unidecode = "1.3"
 
 [[package]]
+name = "flake8"
+version = "4.0.1"
+description = "the modular source code checker: pep8 pyflakes and co"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+importlib-metadata = {version = "<4.3", markers = "python_version < \"3.8\""}
+mccabe = ">=0.6.0,<0.7.0"
+pycodestyle = ">=2.8.0,<2.9.0"
+pyflakes = ">=2.4.0,<2.5.0"
+
+[[package]]
 name = "gunicorn"
 version = "20.1.0"
 description = "WSGI HTTP Server for UNIX"
@@ -196,6 +210,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "mccabe"
+version = "0.6.1"
+description = "McCabe checker, plugin for flake8"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "packaging"
 version = "20.9"
 description = "Core utilities for Python packages"
@@ -232,6 +254,22 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 name = "py"
 version = "1.10.0"
 description = "library with cross-python path, ini-parsing, io, code, log facilities"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[[package]]
+name = "pycodestyle"
+version = "2.8.0"
+description = "Python style guide checker"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
+name = "pyflakes"
+version = "2.4.0"
+description = "passive checker of Python programs"
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
@@ -416,7 +454,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "e026a6355a698e95fb5508978ff9a7d43d14895bbda2e59538ca9b0877b05965"
+content-hash = "8f87ab088fd75626d675b26b56014193d9c3a6d94fa0447f53eeefacc3c55bc6"
 
 [metadata.files]
 asgiref = [
@@ -470,6 +508,10 @@ faker = [
     {file = "Faker-6.6.2-py3-none-any.whl", hash = "sha256:60a7263104ef7a14ecfe2af1142d53924aa534ccec85cea82bb67b2b32f84421"},
     {file = "Faker-6.6.2.tar.gz", hash = "sha256:f43ac743c34affb1c7fccca8b06450371cd482b6ddcb4110e420acb24356e70b"},
 ]
+flake8 = [
+    {file = "flake8-4.0.1-py2.py3-none-any.whl", hash = "sha256:479b1304f72536a55948cb40a32dce8bb0ffe3501e26eaf292c7e60eb5e0428d"},
+    {file = "flake8-4.0.1.tar.gz", hash = "sha256:806e034dda44114815e23c16ef92f95c91e4c71100ff52813adf7132a6ad870d"},
+]
 gunicorn = [
     {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
     {file = "gunicorn-20.1.0.tar.gz", hash = "sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8"},
@@ -485,6 +527,10 @@ importlib-metadata = [
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
+]
+mccabe = [
+    {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
+    {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 packaging = [
     {file = "packaging-20.9-py2.py3-none-any.whl", hash = "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"},
@@ -534,6 +580,14 @@ psycopg2-binary = [
 py = [
     {file = "py-1.10.0-py2.py3-none-any.whl", hash = "sha256:3b80836aa6d1feeaa108e046da6423ab8f6ceda6468545ae8d02d9d58d18818a"},
     {file = "py-1.10.0.tar.gz", hash = "sha256:21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3"},
+]
+pycodestyle = [
+    {file = "pycodestyle-2.8.0-py2.py3-none-any.whl", hash = "sha256:720f8b39dde8b293825e7ff02c475f3077124006db4f440dcbc9a20b76548a20"},
+    {file = "pycodestyle-2.8.0.tar.gz", hash = "sha256:eddd5847ef438ea1c7870ca7eb78a9d47ce0cdb4851a5523949f2601d0cbbe7f"},
+]
+pyflakes = [
+    {file = "pyflakes-2.4.0-py2.py3-none-any.whl", hash = "sha256:3bb3a3f256f4b7968c9c788781e4ff07dce46bdf12339dcda61053375426ee2e"},
+    {file = "pyflakes-2.4.0.tar.gz", hash = "sha256:05a85c2872edf37a4ed30b0cce2f6093e1d0581f8c19d7393122da7e25b2b24c"},
 ]
 pyjwt = [
     {file = "PyJWT-2.0.1-py3-none-any.whl", hash = "sha256:b70b15f89dc69b993d8a8d32c299032d5355c82f9b5b7e851d1a6d706dffe847"},

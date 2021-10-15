@@ -31,8 +31,8 @@ class MovieRecommendationCommentsViewSet(viewsets.ModelViewSet):
         movie_recommendation = MovieRecommendation.objects.filter(movie=movie)
         if movie_recommendation.exists():
             movie_already_recommended_by_user = MovieRecommendationComment.objects.filter(
-                    user=request.user, movie_recommendation=movie_recommendation.first()).exists() or \
-                                                movie_recommendation.filter(user=request.user).exists()
+                user=request.user, movie_recommendation=movie_recommendation.first()).exists() or \
+                movie_recommendation.filter(user=request.user).exists()
             if movie_already_recommended_by_user:
                 return Response({'success': False, 'message': 'You have already recommended this movie.'},
                                 status=status.HTTP_400_BAD_REQUEST)

@@ -9,5 +9,5 @@ class MovieRecommendationAdmin(admin.ModelAdmin):
 
 
 @admin.register(MovieRecommendationComment)
-class MovieRecommendationAdmin(admin.ModelAdmin):
+class MovieRecommendationCommentAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'user__username', 'movie_recommendation__movie__title')

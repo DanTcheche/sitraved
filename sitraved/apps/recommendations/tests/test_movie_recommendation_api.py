@@ -113,4 +113,3 @@ class TestMovieRecommendationsViewSet:
             responses.GET,
             f'https://api.themoviedb.org/3/movie/{movie_tmdb_id}/credits?api_key={settings.TMDB_API_KEY}',
             json=credits_data, status=200)
-

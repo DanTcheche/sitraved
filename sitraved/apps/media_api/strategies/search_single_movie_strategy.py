@@ -41,7 +41,7 @@ class SearchSingleMovie(Strategy):
                     'language': movie.get('spoken_languages'),
                     'genres': movie.get('genres')
                 }
-            }
+        }
         return data
 
     def __build_search_credits_response(self, credits, movie):

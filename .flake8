@@ -1,0 +1,7 @@
+[flake8]
+ignore = F401
+exclude = .git,__pycache__,docs/,conf/settings/,.virtualenv/, **/migrations/, node_modules/, **/__init__.py
+show-source = True
+statistics = True
+count = True
+max-line-length = 120

@@ -42,7 +42,7 @@ class MediaToModelCreator:
                 cast_member, created = CrewMember.objects.get_or_create(tmdb_id=tmdb_cast_member['id'],
                                                                         defaults={
                                                                             'name': tmdb_cast_member['original_name']
-                                                                        })
+                })
                 cast.append(cast_member)
 
         movie_model.language = language
@@ -74,6 +74,5 @@ class MediaToModelCreator:
                                                          'year': year,
                                                          'slug': slug,
                                                          'imdb_id': movie['imdb_id']
-                                                        }
-                                                     )
+                                                     })
         return movie
