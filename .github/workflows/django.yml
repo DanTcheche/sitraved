@@ -1,10 +1,6 @@
 name: Django CI
 
 env:
-  # postgres service variables
-  POSTGRES_DB: development
-  POSTGRES_USER: development
-  POSTGRES_PASSWORD: development
   # Django variables
   DJANGO_SETTINGS_MODULE: conf.settings.testing
   DATABASE_TEST_URL: postgres://development:development@localhost/test_db
@@ -22,10 +18,16 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7,]
+        
+    services:
+      image: postgres
+      env:
+        POSTGRES_PASSWORD: development
+        POSTGRES_USER: development
+        POSTGRES_DB: development
+      ports:
+        - 5432:5432
+      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
