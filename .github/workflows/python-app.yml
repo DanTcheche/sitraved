@@ -65,3 +65,6 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
     - name: Run tests
       run: poetry run pytest
+    - name: Analysing the code with pylint
+      run: |
+        pylint `ls -R|grep .py$|xargs`
