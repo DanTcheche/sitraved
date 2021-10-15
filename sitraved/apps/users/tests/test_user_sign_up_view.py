@@ -29,7 +29,6 @@ class TestUserSignUpView:
         user = response['user']
         assert user['username'] == 'testuser'
         assert created_user.username == 'testuser'
-        assert user['email'] == 'test@user.com'
         assert created_user.email == 'test@user.com'
         assert 'refresh_token' in response
         assert 'access_token' in response

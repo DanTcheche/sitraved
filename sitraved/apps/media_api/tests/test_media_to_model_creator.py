@@ -42,10 +42,13 @@ class TestMediaToModelCreator:
         assert Language.objects.all().count() == 1
         assert Language.objects.first().name == 'English'
 
-        assert CrewMember.objects.all().count() == 8
-        assert CrewMember.objects.filter(name='Cosmo Jarvis').first()
+        assert CrewMember.objects.all().count() == 5
+        assert CrewMember.objects.filter(name='Rhea Perlman').first()
 
-        assert MovieCrewMember.objects.filter(movie=movie).count() == 7
+        #   Ignores Members with popularity < 3.
+        assert CrewMember.objects.filter(name='Cosmo Jarvis').first() is None
+
+        assert MovieCrewMember.objects.filter(movie=movie).count() == 4
 
     @responses.activate
     def test_media_create_same_movie_doesnt_fail(self):
@@ -70,5 +73,5 @@ class TestMediaToModelCreator:
         assert movie.title == movie2.title
         assert MovieGenre.objects.all().count() == 1
         assert Language.objects.all().count() == 1
-        assert CrewMember.objects.all().count() == 8
-        assert MovieCrewMember.objects.filter(movie=movie).count() == 7
+        assert CrewMember.objects.all().count() == 5
+        assert MovieCrewMember.objects.filter(movie=movie).count() == 4
