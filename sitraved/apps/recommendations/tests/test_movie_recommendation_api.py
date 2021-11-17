@@ -7,6 +7,7 @@ from django.conf import settings
 
 from sitraved.apps.media_api.tests.factories.MovieFactory import MovieFactory
 from sitraved.apps.recommendations.models import MovieRecommendation
+from sitraved.apps.recommendations.tests.common import login_user
 from sitraved.apps.recommendations.tests.factories.movie_recommendation_factory import MovieRecommendationFactory
 from sitraved.apps.users.tests.factories.user_factory import UserFactory
 
@@ -25,7 +26,7 @@ class TestMovieRecommendationsViewSet:
         self.user = UserFactory(username='testuser', email='test@user.com', password='correctpassword')
 
     def test_create_movie_recommendation(self, set_up):
-        self.__login_user(set_up, self.user, 'correctpassword')
+        login_user(self.user, 'correctpassword', self.client)
 
         self.__set_up_data(self.tmdb_id)
         params = {
@@ -40,7 +41,7 @@ class TestMovieRecommendationsViewSet:
 
     def test_cannot_create_same_recommendation_twice(self, set_up):
         movie = MovieFactory(tmdb_id=664596, title='Funny Face')
-        self.__login_user(set_up, self.user, 'correctpassword')
+        login_user(self.user, 'correctpassword', self.client)
 
         self.__set_up_data(movie.tmdb_id)
 
@@ -69,7 +70,7 @@ class TestMovieRecommendationsViewSet:
     def test_cannot_delete_recommendation(self, set_up):
         movie = MovieFactory(tmdb_id=664596, title='Funny Face')
         anotherUser = UserFactory(username='another_user', email='another_user@user.com', password='correctpassword')
-        self.__login_user(set_up, self.user, 'correctpassword')
+        login_user(self.user, 'correctpassword', self.client)
 
         movie_recommendation = MovieRecommendationFactory(movie=movie, user=anotherUser)
 
@@ -80,7 +81,7 @@ class TestMovieRecommendationsViewSet:
     def test_cannot_edit_recommendation(self, set_up):
         movie = MovieFactory(tmdb_id=664596, title='Funny Face')
         anotherUser = UserFactory(username='another_user', email='another_user@user.com', password='correctpassword')
-        self.__login_user(set_up, self.user, 'correctpassword')
+        login_user(self.user, 'correctpassword', self.client)
 
         movie_recommendation = MovieRecommendationFactory(movie=movie, user=anotherUser)
         params = {
@@ -91,18 +92,7 @@ class TestMovieRecommendationsViewSet:
 
         assert response.status_code == 405, str(response.content)
 
-    def __login_user(self, set_up, user, password):
-        login_params = {
-            'username': user.username,
-            'password': password,
-        }
-
-        response = self.client.post('/api/users/login/', login_params)
-        access_token = response.json()["access_token"]
-        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
-
     def __set_up_data(self, movie_tmdb_id):
-
         tmdb_id_data = json.load(open(TMDB_ID_SEARCH_DATA))
         credits_data = json.load(open(CREDITS_SEARCH_DATA))
         responses.add(
