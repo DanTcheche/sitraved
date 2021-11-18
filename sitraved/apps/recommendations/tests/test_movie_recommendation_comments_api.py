@@ -1,9 +1,7 @@
 import pytest
-import os
 from rest_framework.test import APIClient
 
 from sitraved.apps.media_api.tests.factories.MovieFactory import MovieFactory
-from sitraved.apps.recommendations.models import MovieRecommendation, MovieRecommendationComment
 from sitraved.apps.recommendations.tests.factories.movie_recommendation_factory import MovieRecommendationFactory
 from sitraved.apps.users.tests.factories.user_factory import UserFactory
 
