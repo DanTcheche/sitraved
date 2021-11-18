@@ -1,3 +1,5 @@
+from django.db.models import Count
+
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -16,7 +18,6 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 class MovieRecommendationsViewSet(viewsets.ModelViewSet):
-    queryset = MovieRecommendation.objects.all().order_by('-created_at')
     serializer_class = MovieRecommendationSerializer
     pagination_class = StandardResultsSetPagination
     http_method_names = ['get', 'post']
@@ -26,6 +27,13 @@ class MovieRecommendationsViewSet(viewsets.ModelViewSet):
             return [IsAuthenticated()]
         else:
             return [IsOwnerOrReadOnly()]
+
+    def get_queryset(self):
+        sort = self.request.GET.get('sort', None)
+        if sort and sort == 'popularity':
+            return MovieRecommendation.objects.all().annotate(comments_count=Count('comments')).\
+                order_by('-comments_count')
+        return MovieRecommendation.objects.all().order_by('-created_at')
 
     def create(self, request):
         tmdb_id = request.data.get('tmdb_id')
