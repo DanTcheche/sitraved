@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class RecommendationsConfig(AppConfig):
-    name = 'recommendations'
+    name = 'sitraved.apps.recommendations'
