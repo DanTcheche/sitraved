@@ -13,3 +13,9 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': env.db()
 }
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}

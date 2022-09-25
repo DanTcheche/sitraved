@@ -17,6 +17,8 @@ django-cors-headers = "^3.7.0"
 responses = "^0.13.2"
 gunicorn = "^20.1.0"
 flake8 = "^4.0.1"
+django-elasticsearch-dsl = "^7.2.2"
+django-elasticsearch-dsl-drf = "^0.22.5"
 [tool.poetry.dev-dependencies]
 
 [build-system]

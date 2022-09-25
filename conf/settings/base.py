@@ -57,6 +57,7 @@ LOCAL_APPS = [
 VENDOR_APPS = [
     'rest_framework',
     'corsheaders',
+    'django_elasticsearch_dsl',
 ]
 
 INSTALLED_APPS = VENDOR_APPS + LOCAL_APPS + DJANGO_APPS
